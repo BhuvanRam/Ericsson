@@ -97,11 +97,69 @@ namespace Ericsson
             for (int i = 0; i < height; i++)
             {
                 Console.WriteLine("\n");
-                PrintValues(node, i);
+                bool isReverse = false;
+                if (i % 2 != 0) // If the Row is odd number then printing the value in reverse order
+                    isReverse = true;
+                PrintValues(node, i, isReverse);
             }
         }
 
-        private static void PrintValues(Node node, int level)
+        // Whether both the nodes are in same level or not
+        public static bool CheckTwoNodesAreCousins(Node node, int aValue,int bValue)
+        {
+            int height = HeightofTheTree(node);
+
+            for (int i = 0; i < height; i++)
+            {
+                int[] oLevelData = new int[2];               
+                 FindCousinNodes(node, i,aValue,bValue, oLevelData);
+
+                if(oLevelData[0] == aValue && oLevelData[1] == bValue)                
+                    return true;
+                if (oLevelData[0] == aValue || oLevelData[1] == bValue)
+                    return false;
+            }
+            return false;
+        }
+
+        
+        
+        private static void FindCousinNodes(Node node,int level,int aValue,int bValue,int[] levelData)
+        {
+            if (node == null)
+                return;
+
+            if(level == 0)
+            {
+                if (aValue == node.value)
+                    levelData[0] = node.value;
+                if (bValue == node.value)
+                    levelData[1] = node.value;
+            }
+            else
+            {
+                FindCousinNodes(node.left, level - 1, aValue,bValue, levelData);
+                FindCousinNodes(node.right, level - 1, aValue, bValue, levelData);
+            }
+            
+        }
+
+        private static int HeightofTheTree(Node node)
+        {
+            if (node == null)
+                return 0;
+
+            int left = 0, right = 0;
+
+            left = HeightofTheTree(node.left);
+            right = HeightofTheTree(node.right);
+            if (left > right)
+                return left + 1;
+            else
+                return right + 1;
+        }
+
+        public static void PrintValues(Node node, int level,bool isReverse)
         {
             if (node == null)
                 return;
@@ -110,36 +168,77 @@ namespace Ericsson
                 Console.Write("\t {0}", node.value);
             else
             {
-                PrintValues(node.left, level - 1);
-                PrintValues(node.right, level - 1);
-            }
-        }
-
-
-        private static int HeightofTheTree(Node node)
-        {
-            if (node == null)
-                return 0;
-            else
-            {
-                int left = HeightofTheTree(node.left);
-                int right = HeightofTheTree(node.right);
-
-                if (left > right)
-                    return left + 1;
+                if (isReverse)
+                {
+                    PrintValues(node.right, level - 1, isReverse);
+                    PrintValues(node.left, level - 1, isReverse);
+                }
                 else
-                    return right + 1;
+                {
+                    PrintValues(node.left, level - 1,isReverse);
+                    PrintValues(node.right, level - 1, isReverse);
+                }                
             }
         }
 
-        public int FindTheCommonNode(int aValue,int bValue)
+
+
+        public static int FindTheCommonNode(Node node, int aValue, int bValue)
         {
             int commonNode = -1;
+
+            if (aValue < node.value && bValue > node.value)
+                return node.value;
+
+            // Node Left Side
+            if(aValue < node.value && bValue < node.value)
+            {
+                if (node.left != null && (aValue == node.left.value || bValue == node.left.value))
+                    return node.value;
+                else
+                    commonNode = FindTheCommonNode(node.left, aValue, bValue);
+            }
+
+            //Node Right Side
+            if(aValue > node.value && bValue > node.value)
+            {
+                if (node.right != null && (aValue == node.right.value || bValue == node.right.value))
+                    return node.value;
+                else
+                    commonNode = FindTheCommonNode(node.right, aValue, bValue);
+            }
 
             return commonNode;
         }
 
+        public static void FlatenBinaryTreeToLinkedList(Node rootNode,LinkedList linkedList)
+        {
+            if (rootNode == null)
+                return;
 
+            FlatenBinaryTreeToLinkedList(rootNode.left,linkedList);
+            FlatenBinaryTreeToLinkedList(rootNode.right, linkedList);                        
+           linkedList.InsertNewNode(linkedList, rootNode.value);
+            
+
+        }
+
+        public static int SumofLeafNodes(Node node)
+        {
+            int sum = 0;
+            if (node == null)
+                return 0;
+
+            if (node.left == null && node.right == null)
+                return node.value;
+
+            if (node.left != null)
+                sum = sum + SumofLeafNodes(node.left);
+            if (node.right != null)
+                sum = sum + SumofLeafNodes(node.right);
+
+            return sum;
+        }
     }
 
     public class Node
@@ -150,6 +249,24 @@ namespace Ericsson
         public Node(int _value)
         {
             value = _value;
+        }
+    }
+
+    public class LinkedList
+    {
+        public LinkedList Next;
+        public int value;
+        public LinkedList(int _value)
+        {
+            value = _value;
+        }
+
+        public void InsertNewNode(LinkedList node,int value)
+        {
+            if (node != null)
+                InsertNewNode(node.Next,value);
+            else            
+                node.Next = new LinkedList(value);            
         }
     }
 }

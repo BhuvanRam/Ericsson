@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="AsynchronousProgramming.cs" />
     <Compile Include="BinarySearchTree.cs" />
+    <Compile Include="CircularQueue.cs" />
+    <Compile Include="DynamicPolymorphism.cs" />
     <Compile Include="GenericDictionary.cs" />
     <Compile Include="GenericList.cs" />
     <Compile Include="GenericQueue.cs" />

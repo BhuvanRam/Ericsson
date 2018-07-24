@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Ericsson.DynamicPolymorphism;
 
 namespace Ericsson
 {
@@ -10,6 +11,11 @@ namespace Ericsson
     {
         static void Main(string[] args)
         {
+
+
+            //BaseClass baseClass = new SecondClass();
+            //baseClass.Show();
+
             Node rootNode = new Node(14);
 
             BinarySearchTree.InsertNode(rootNode, 30);
@@ -18,9 +24,18 @@ namespace Ericsson
             BinarySearchTree.InsertNode(rootNode, 5);
             BinarySearchTree.InsertNode(rootNode, 4);
             BinarySearchTree.InsertNode(rootNode, 6);
+            BinarySearchTree.InsertNode(rootNode,20);
+            BinarySearchTree.InsertNode(rootNode, 16);
+            BinarySearchTree.InsertNode(rootNode, 17);
 
-            BinarySearchTree.PrintAllLevelOrderTraversal(rootNode);
-            Console.ReadKey();
+            Console.WriteLine(BinarySearchTree.FindTheCommonNode(rootNode, 17,16));
+
+            //LinkedList oNode = new LinkedList(111);
+            //BinarySearchTree.FlatenBinaryTreeToLinkedList(rootNode, oNode);
+
+            //Console.WriteLine("Sum of Lead Nodes {0}", BinarySearchTree.SumofLeafNodes(rootNode));
+            //Console.WriteLine("Both or on same Node : {0}" , BinarySearchTree.CheckTwoNodesAreCousins(rootNode,5,30));
+            //Console.ReadKey();
             //Console.WriteLine("\n");
             //BinarySearchTree.PrintInOrderTraversal(rootNode);
             //Console.WriteLine("\n");
