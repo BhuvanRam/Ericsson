@@ -6,11 +6,41 @@ using System.Threading.Tasks;
 
 namespace Ericsson
 {
+
+    public class CircularQueueImplementation
+    {
+        public static void Main()
+        {
+            CircularQueue<int> oCircularQueue = new CircularQueue<int>();
+
+            oCircularQueue.Dequeue();
+
+            oCircularQueue.Enqueue(1);
+            oCircularQueue.Enqueue(2);
+            oCircularQueue.Enqueue(3);
+
+
+            oCircularQueue.Dequeue();
+            oCircularQueue.Enqueue(4);
+            oCircularQueue.Enqueue(5);
+            oCircularQueue.Enqueue(6);
+            //oCircularQueue.Print();        
+            oCircularQueue.Dequeue();
+            oCircularQueue.Dequeue();
+            oCircularQueue.Dequeue();
+            oCircularQueue.Enqueue(7);
+
+
+            oCircularQueue.Enqueue(8);
+            oCircularQueue.Enqueue(9);
+            oCircularQueue.Print();
+        }
+    }
+
     public class CircularQueue<T>
     {
-        int first = 0, rear = 0, arrayCount = 0;
+        int front = 0, rear = 0, size = 5, queueCount = 0;
         T[] queueData;
-        int size = 5;
 
         public CircularQueue()
         {
@@ -19,63 +49,51 @@ namespace Ericsson
 
         public void Enqueue(T data)
         {
-            if (arrayCount == size)
-                throw new Exception("Queue is full");
+            if (queueCount == size)
+            {
+                Console.WriteLine("Queue is Full");
+                return;
+            }
 
-            if (rear == size)
+            if (front > 0 && rear == size) //cyclic
                 rear = 0;
 
-            queueData[rear] = data;
-            rear++;
-            arrayCount++;
+            queueData[rear++] = data;
+            queueCount++;
         }
 
         public T Dequeue()
         {
-            if (arrayCount == 0)
-                throw new Exception("Queue is Empty");
+            if (queueCount == 0)
+            {
+                Console.WriteLine("Queue is Empty");
+                return default(T);
+            }
 
-            if (first == size && arrayCount > 0)
-                first = 0;
+            if (front == size && rear > 0)
+                front = 0;
 
-            T removedElement = queueData[first];
-            queueData[first] = default(T);
-            first++;
-            arrayCount--;
+
+            T removedElement = queueData[front++];
+            queueCount--;
             return removedElement;
         }
 
-        public T[] ReturnPrintedValues()
+        public void Print()
         {
-            if (arrayCount == 0)
-                throw new Exception("No Values to Print");
-
-            T[] resultArray = new T[arrayCount];
-            int resultIndex = 0;
-
-            if (arrayCount > 0)
+            if (front < rear)
             {
-
-                if (first <= 0) // first is not in repetition
-                {
-                    for (int i = first; i < arrayCount; i++)
-                        resultArray[resultIndex++] = queueData[i];
-                }
-                else if (first > 0)
-                {
-                    // Older Elements
-                    for (int i = rear; i < queueData.Length; i++)
-                        resultArray[resultIndex++] = queueData[i];
-
-                    // Newer Elements
-                    for (int i = 0; i < first; i++)
-                        resultArray[resultIndex++] = queueData[i];
-
-                }
-
+                for (int i = front; i < rear; i++)
+                    Console.WriteLine(queueData[i]);
             }
-            return resultArray;
-        }
+            else if (rear <= front)
+            {
+                for (int i = front; i < queueData.Length; i++)
+                    Console.WriteLine(queueData[i]);
 
+                for (int i = 0; i < rear; i++)
+                    Console.WriteLine(queueData[i]);
+            }
+        }
     }
 }

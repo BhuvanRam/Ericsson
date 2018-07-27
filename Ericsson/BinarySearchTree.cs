@@ -211,17 +211,17 @@ namespace Ericsson
             return commonNode;
         }
 
-        public static void FlatenBinaryTreeToLinkedList(Node rootNode,LinkedList linkedList)
-        {
-            if (rootNode == null)
-                return;
+        //public static void FlatenBinaryTreeToLinkedList(Node rootNode,LinkedList linkedList)
+        //{
+        //    if (rootNode == null)
+        //        return;
 
-            FlatenBinaryTreeToLinkedList(rootNode.left,linkedList);
-            FlatenBinaryTreeToLinkedList(rootNode.right, linkedList);                        
-           linkedList.InsertNewNode(linkedList, rootNode.value);
+        //    FlatenBinaryTreeToLinkedList(rootNode.left,linkedList);
+        //    FlatenBinaryTreeToLinkedList(rootNode.right, linkedList);                        
+        //   linkedList.InsertNewNode(linkedList, rootNode.value);
             
 
-        }
+        //}
 
         public static int SumofLeafNodes(Node node)
         {
@@ -252,21 +252,4 @@ namespace Ericsson
         }
     }
 
-    public class LinkedList
-    {
-        public LinkedList Next;
-        public int value;
-        public LinkedList(int _value)
-        {
-            value = _value;
-        }
-
-        public void InsertNewNode(LinkedList node,int value)
-        {
-            if (node != null)
-                InsertNewNode(node.Next,value);
-            else            
-                node.Next = new LinkedList(value);            
-        }
-    }
 }

@@ -9,26 +9,34 @@ namespace Ericsson
 {
     class Program
     {
+        static void PrintNumbers(int n)
+        {
+            if (n < 0)
+                return;
+
+            Console.WriteLine(n);
+            PrintNumbers(--n);
+        }
         static void Main(string[] args)
         {
-
+            PrintNumbers(10);
 
             //BaseClass baseClass = new SecondClass();
             //baseClass.Show();
 
-            Node rootNode = new Node(14);
+            //Node rootNode = new Node(14);
 
-            BinarySearchTree.InsertNode(rootNode, 30);
-            BinarySearchTree.InsertNode(rootNode, 15);
-            BinarySearchTree.InsertNode(rootNode, 35);
-            BinarySearchTree.InsertNode(rootNode, 5);
-            BinarySearchTree.InsertNode(rootNode, 4);
-            BinarySearchTree.InsertNode(rootNode, 6);
-            BinarySearchTree.InsertNode(rootNode,20);
-            BinarySearchTree.InsertNode(rootNode, 16);
-            BinarySearchTree.InsertNode(rootNode, 17);
+            //BinarySearchTree.InsertNode(rootNode, 30);
+            //BinarySearchTree.InsertNode(rootNode, 15);
+            //BinarySearchTree.InsertNode(rootNode, 35);
+            //BinarySearchTree.InsertNode(rootNode, 5);
+            //BinarySearchTree.InsertNode(rootNode, 4);
+            //BinarySearchTree.InsertNode(rootNode, 6);
+            //BinarySearchTree.InsertNode(rootNode,20);
+            //BinarySearchTree.InsertNode(rootNode, 16);
+            //BinarySearchTree.InsertNode(rootNode, 17);
 
-            Console.WriteLine(BinarySearchTree.FindTheCommonNode(rootNode, 17,16));
+            //Console.WriteLine(BinarySearchTree.FindTheCommonNode(rootNode, 17,16));
 
             //LinkedList oNode = new LinkedList(111);
             //BinarySearchTree.FlatenBinaryTreeToLinkedList(rootNode, oNode);
